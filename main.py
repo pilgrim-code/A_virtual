@@ -7,7 +7,7 @@ import smtplib
 #import tensorflow as tf
 opera_path = r"C://Users//Pilgrim//AppData//Local//Programs//Opera GX//opera.exe"
 webbrowser.register('opera',None,webbrowser.BackgroundBrowser(opera_path),preferred=True)
-
+programas_registrados = ['Visual Studio Code','Word','Power Point']
 
 engine = pyttsx3.init('sapi5')
 voices = engine.getProperty('voices')
@@ -65,6 +65,37 @@ def sendEmail(to, content):
     server.sendmail('youremail@gmail.com', to, content)
     server.close()
 
+def busqueda_navegador(query):
+    
+    speak("Que busqueda deseas hacer?")
+    query = takeCommand().lower()
+    if 'abrir youtube' in query:
+        webbrowser.get('opera').open("youtube.com")
+        
+    elif 'abrir historial youtube' in query:
+        webbrowser.get('opera').open("youtube.com/feed/history")
+
+    elif 'busca mis monas chinas' in query:
+        webbrowser.get('opera').open("https://www1.otakustv.com")
+    elif 'busca' in query:
+            speak("Que busco?")
+            query=webbrowser.get('opera').open(takeCommand()) 
+    
+    
+def abrir_programa(query):
+    speak(f"Que programa quieres abrir? Tengo registrados : {programas_registrados}")
+    query = takeCommand().lower()
+    if 'abrir visual' in query:
+            codePath = "C:/Users/Pilgrim/AppData/Local/Programs/Microsoft VS Code/Code.exe"
+            os.startfile(codePath)
+    if 'abrir word' in query:
+        codePath = "C:/Program Files/Microsoft Office/root/Office16/WINWORD.EXE"
+        os.startfile(codePath)
+        
+    if 'abrir ppt' in query:
+        codePath = "C:/Program Files/Microsoft Office/root/Office16/POWERPNT.EXE"
+        os.startfile(codePath)
+
 if __name__ == "__main__":
     Inicio()
     while True:
@@ -73,26 +104,17 @@ if __name__ == "__main__":
 
         # Logic for executing tasks based on query
      
-        if 'abrir youtube' in query:
-            webbrowser.get('opera').open("youtube.com")
-        
-        elif 'abrir historial youtube' in query:
-            webbrowser.get('opera').open("youtube.com/feed/history")
-
-        elif 'busca mis monas chinas' in query:
-            webbrowser.get('opera').open("https://www1.otakustv.com")
+        if 'abrir navegador' in query:
+            busqueda_navegador(query)
 
         elif 'que hora es' in query:
             strTime = datetime.datetime.now().strftime("%H:%M:%S")    
             speak(f"Señor, la hora es {strTime} ")
 
-        elif 'abrir visual' in query:
-            codePath = "C:/Users/Pilgrim/AppData/Local/Programs/Microsoft VS Code/Code.exe"
-            os.startfile(codePath)
+        if 'abrir programa' in query:
+            abrir_programa(query)
         
-        elif 'busca' in query:
-            speak("Que busco?")
-            query=webbrowser.get('opera').open(takeCommand()) 
+        
 
         elif 'mensaje a big data' in query:
             try:
