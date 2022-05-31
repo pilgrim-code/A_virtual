@@ -1,16 +1,33 @@
 from genericpath import exists
 import pyttsx3 
+import pickle
 import speech_recognition as sr 
 import datetime
 import webbrowser
 import os
 import smtplib
 import json
-import autopy
 
 #import tensorflow as tf
 opera_path = r"C://Users//Pilgrim//AppData//Local//Programs//Opera GX//opera.exe"
 webbrowser.register('opera',None,webbrowser.BackgroundBrowser(opera_path),preferred=True)
+
+
+arr = []
+lectura = []
+
+def escritura_pk():
+    with open('test1.pkl','wb') as f:
+        pickle.dump(arr, f)
+    
+
+def lectura_pk():
+    with open('test1.pkl','rb') as f:
+            x = pickle.load(f)
+            lectura.append(x)
+            speak(f" Estos programas regitrados {lectura}")
+            print(x,"Esto es sin el array")
+
 programas_registrados = [] #Lectura
 programas_to_json = [] #Escritura
 
@@ -92,47 +109,45 @@ def busqueda_navegador(query):
     
 def abrir_programa(query):
     
-    with open("Programas.json","r") as k:
-        programas =json.load(k)
-        print(programas)
-    speak(f"Que programa quieres abrir? Tengo registrados : {programas}")
+    lectura_pk()
+    #speak(f"Que programa quieres abrir? Tengo registrados : ")
     query = takeCommand().lower()
     if 'visual' in query:
             codePath = "C:/Users/Pilgrim/AppData/Local/Programs/Microsoft VS Code/Code.exe"
             os.startfile(codePath)
-            programas_to_json.append(query)
-            print(programas_to_json)
-            escritura_json(programas_to_json)
+            arr.append(query)
+            print(arr)
+            escritura_pk()
             
 
     elif 'word' in query:
         codePath = "C:/Program Files/Microsoft Office/root/Office16/WINWORD.EXE"
         os.startfile(codePath)
-        programas_to_json.append(query)
-        print(programas_to_json)
-        escritura_json(programas_to_json)
+        arr.append(query)
+        print(arr)
+        escritura_pk()
         
     elif 'ppt' in query:
         codePath = "C:/Program Files/Microsoft Office/root/Office16/POWERPNT.EXE"
         os.startfile(codePath)
-        programas_to_json.append(query)
-        print(programas_to_json)
-        escritura_json(programas_to_json)
+        arr.append(query)
+        print(arr)
+        escritura_pk()
 
     elif 'whatsapp' in query:
         print(query)
-        #programas_registrados.append(query)
+        programas_registrados.append(query)
         programas_to_json.append(query)
         print(programas_registrados)
         codePath = "C:/Users/Pilgrim/AppData/Local/WhatsApp/WhatsApp.exe"
         os.startfile(codePath)
         print(programas_to_json)
-        escritura_json(programas_to_json)
+        escritura_pk()
 
 if __name__ == "__main__":
     Inicio()
     while True:
-   
+    # if 1:
         query = takeCommand().lower()
 
         # Logic for executing tasks based on query
@@ -147,6 +162,8 @@ if __name__ == "__main__":
         if 'abrir programa' in query:
             abrir_programa(query)
         
+        
+
         elif 'mensaje a big data' in query:
             try:
                 speak("que le digo?")
