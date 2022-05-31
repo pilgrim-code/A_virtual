@@ -6,7 +6,7 @@ import webbrowser
 import os
 import smtplib
 import json
-import autopy
+import pyautogui
 
 #import tensorflow as tf
 opera_path = r"C://Users//Pilgrim//AppData//Local//Programs//Opera GX//opera.exe"
@@ -88,6 +88,13 @@ def busqueda_navegador(query):
     elif 'busca' in query:
             speak("Que busco?")
             query=webbrowser.get('opera').open(takeCommand()) 
+    elif 'cerrar ventana' in query:
+        speak("Cerrando ventana")
+        pyautogui.keyDown('ctrl')
+        pyautogui.keyDown('w')
+        pyautogui.keyUp('ctrl')
+        pyautogui.keyUp('w')
+
     
     
 def abrir_programa(query):
